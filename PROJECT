@@ -1,0 +1,16 @@
+domain: demo
+layout:
+- go.kubebuilder.io/v3
+projectName: hello-operator
+repo: demo/hello-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: demo
+  group: demogroup
+  kind: Hellocrd
+  path: demo/hello-operator/api/v1
+  version: v1
+version: "3"

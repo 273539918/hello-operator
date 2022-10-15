@@ -1,0 +1,31 @@
+# permissions for end users to edit hellocrds.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: hellocrd-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: hello-operator
+    app.kubernetes.io/part-of: hello-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: hellocrd-editor-role
+rules:
+- apiGroups:
+  - demogroup.demo
+  resources:
+  - hellocrds
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - demogroup.demo
+  resources:
+  - hellocrds/status
+  verbs:
+  - get
