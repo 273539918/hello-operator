@@ -13,7 +13,7 @@ spec:
     listKind: HellocrdList
     plural: hellocrds
     singular: hellocrd
-  scope: Namespaced
+  scope: Cluster
   versions:
   - name: v1
     schema:
@@ -38,7 +38,6 @@ spec:
               containerImage:
                 type: string
               containerImageNamespace:
-                description: hello crd spec
                 type: string
               containerTag:
                 type: string

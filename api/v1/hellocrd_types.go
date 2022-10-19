@@ -31,6 +31,7 @@ type HellocrdSpec struct {
 	// Foo is an example field of Hellocrd. Edit hellocrd_types.go to remove/update
 	Foo string `json:"foo,omitempty"`
 	// hello crd spec
+
 	ContainerImageNamespace string `json:"containerImageNamespace,omitempty"`
 	ContainerImage          string `json:"containerImage,omitempty"`
 	ContainerTag            string `json:"containerTag,omitempty"`
@@ -46,6 +47,7 @@ type HellocrdStatus struct {
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
+//+kubebuilder:resource:scope=Cluster
 
 // Hellocrd is the Schema for the hellocrds API
 type Hellocrd struct {

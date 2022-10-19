@@ -2,7 +2,7 @@
 make install
 
 ## 推送cr到集群
-kubectl apply -f config/sample/
+kubectl apply -f config/samples/
 
 ## 启动controller（本地）
 make run 
