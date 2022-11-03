@@ -92,18 +92,20 @@ func (r *HellocrdReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		}
 	case "Running":
 		//createpod方法：定义了crd创建pod的模版
-		pod := resources.CreatePod(helloCrdResource)
+		pod := resources.GetPodTemplate(helloCrdResource)
 		query := &corev1.Pod{}
 
 		err := r.Client.Get(ctx, client.ObjectKey{Namespace: pod.Namespace, Name: pod.ObjectMeta.Name}, query)
-		//如果返回pod不存在的错误
+		//如果返回错误且错误是pod不存在
 		if err != nil && errors.IsNotFound(err) {
 			if helloCrdResource.Status.LastPodName == "" {
+				//设置pod的controller是当前运行的cr
 				err = ctrl.SetControllerReference(helloCrdResource, pod, r.Scheme)
 				if err != nil {
 					return ctrl.Result{}, err
 				}
 				//创建Pod
+				log.Info(fmt.Sprintf("Createting Pod:%s", pod.Name))
 				err = r.Create(context.TODO(), pod)
 				if err != nil {
 					return ctrl.Result{}, err
@@ -112,7 +114,7 @@ func (r *HellocrdReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 				return ctrl.Result{Requeue: true}, nil
 			}
 		} else if err != nil {
-			// 找不到pod
+			//进入这个循环表示pod存在但有获取的时候出现其他异常
 			log.Error(err, "cannot get pod")
 			return ctrl.Result{}, err
 		} else if query.Status.Phase == corev1.PodFailed ||

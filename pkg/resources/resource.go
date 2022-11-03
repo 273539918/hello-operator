@@ -13,11 +13,11 @@ func getLabels(helloCrdResource *demogroupv1.Hellocrd) map[string]string {
 	}
 }
 
-func CreatePod(helloCrdResource *demogroupv1.Hellocrd) *corev1.Pod {
+func GetPodTemplate(helloCrdResource *demogroupv1.Hellocrd) *corev1.Pod {
 	return &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      helloCrdResource.Spec.ContainerImage + helloCrdResource.Spec.ContainerTag,
-			Namespace: helloCrdResource.Namespace,
+			Namespace: "default",
 			Labels:    getLabels(helloCrdResource),
 		},
 		Spec: corev1.PodSpec{
