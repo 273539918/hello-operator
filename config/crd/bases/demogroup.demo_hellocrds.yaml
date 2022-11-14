@@ -18,7 +18,7 @@ spec:
   - name: v1
     schema:
       openAPIV3Schema:
-        description: Hellocrd is the Schema for the hellocrds API
+        description: Hellocrd is the Schema for the hellocrds API scoape=cluster 表示crd是cluster级的
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation

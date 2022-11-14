@@ -45,11 +45,11 @@ type HellocrdStatus struct {
 	LastPodName string `json:"lastPodName,omitempty"`
 }
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
-//+kubebuilder:resource:scope=Cluster
-
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster
 // Hellocrd is the Schema for the hellocrds API
+// scoape=cluster 表示crd是cluster级的
 type Hellocrd struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

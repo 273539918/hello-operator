@@ -28,7 +28,7 @@ $kubectl logs -f  hello-operator-controller-manager-777bc5986d-tn9ww -n hello-op
 ### 卸载crd
 make uninstall
 
-### 下载controller
+### 卸载controller
 make undeploy
 
 

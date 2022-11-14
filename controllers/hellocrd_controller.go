@@ -54,7 +54,7 @@ func (r *HellocrdReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	// TODO(user): your logic here
 	// 获取集群中对应crd的cr资源
-	//log.Info(fmt.Sprintf("req is : %s", req.String()))
+	log.Info(fmt.Sprintf("req is : %s", req.String()))
 	var helloCrdResource = &demogroupv1.Hellocrd{}
 	if err := r.Get(ctx, req.NamespacedName, helloCrdResource); err != nil {
 		log.Error(err, "unable to fetch client")
@@ -62,6 +62,7 @@ func (r *HellocrdReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	}
 
 	//备份当前的cr信息
+
 	helloCrdResourceOld := helloCrdResource.DeepCopy()
 
 	//如果cr当前的status.hellostatus字段为空，则设置为Pending
@@ -159,8 +160,12 @@ func (r *HellocrdReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 }
 
 // SetupWithManager sets up the controller with the Manager.
+// For(&demogroupv1.Hellocrd{}) 指定了watch demogroupv1.Hellocrd ，该CR的 Add/Update/Delete 都会发送给reconcile request
+// Owns(&corev1.Pod{}) 指定了watch owner是 demogroupv1.Hellocrd的pod
 func (r *HellocrdReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&demogroupv1.Hellocrd{}).
+		//Owns(&corev1.Pod{}).
+		//Watches(&corev1.Pod{}).
 		Complete(r)
 }
