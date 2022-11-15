@@ -21,13 +21,16 @@ import (
 	demogroupv1 "demo/hello-operator/api/v1"
 	resources "demo/hello-operator/pkg/resources"
 	"fmt"
+	v1beta12 "gitlab.alibaba-inc.com/unischeduler/api/apis/scheduling/v1beta1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
 // HellocrdReconciler reconciles a Hellocrd object
@@ -162,10 +165,15 @@ func (r *HellocrdReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 // SetupWithManager sets up the controller with the Manager.
 // For(&demogroupv1.Hellocrd{}) 指定了watch demogroupv1.Hellocrd ，该CR的 Add/Update/Delete 都会发送给reconcile request
 // Owns(&corev1.Pod{}) 指定了watch owner是 demogroupv1.Hellocrd的pod
+// Watches(&source.Kind{Type: &corev1.Node{}}, &handler.EnqueueRequestForObject{}) 指定watch了一个额外的cr资源
 func (r *HellocrdReconciler) SetupWithManager(mgr ctrl.Manager) error {
+
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&demogroupv1.Hellocrd{}).
 		//Owns(&corev1.Pod{}).
-		//Watches(&corev1.Pod{}).
+		//Todo :watch  resourcesummaries.scheduling.alibabacloud.com
+		//Watches(&source.Kind{Type: &corev1.Node{}}, &handler.EnqueueRequestForObject{}).
+		Watches(&source.Kind{Type: &v1beta12.ResourceSummary{}}, &handler.EnqueueRequestForObject{}).
 		Complete(r)
+
 }

@@ -18,6 +18,7 @@ package main
 
 import (
 	"flag"
+	v1beta12 "gitlab.alibaba-inc.com/unischeduler/api/apis/scheduling/v1beta1"
 	"os"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -46,6 +47,8 @@ func init() {
 
 	utilruntime.Must(demogroupv1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
+	//如果要watch一个外部的CR，需要先注册schema
+	utilruntime.Must(v1beta12.AddToScheme(scheme))
 }
 
 func main() {

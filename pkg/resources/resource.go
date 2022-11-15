@@ -28,6 +28,13 @@ func GetPodTemplate(helloCrdResource *demogroupv1.Hellocrd) *corev1.Pod {
 				},
 			},
 			RestartPolicy: corev1.RestartPolicyOnFailure,
+			Tolerations: []corev1.Toleration{
+				{
+					Key:    "sigma.ali/resource-pool",
+					Effect: corev1.TaintEffectNoSchedule,
+					Value:  "compute_platform",
+				},
+			},
 		},
 	}
 }
