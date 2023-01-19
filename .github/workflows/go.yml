@@ -1,0 +1,33 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+## on 表示在什么场景触发这个流水线
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+## jobs是流谁先要执行的任务
+jobs:
+
+  build:
+    ## 基于ubtuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    ## 配置go的环境未1.19
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+    
+    ## 执行go build
+    - name: Build
+      run: go build -v ./...
+    
+    ## 执行go test
+    - name: Test
+      run: go test -v ./...
